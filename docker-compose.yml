@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  keycloak:
+    image: jboss/keycloak:latest
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - PROXY_ADDRESS_FORWARDING=true
+    ports:
+      - '8080:8080'
+
+  nginx:
+    build: ./nginx
+    ports:
+      - '80:80'
+    depends_on:
+      - nodejs
+      - keycloak
+
+  nodejs:
+    image: node:14
+    working_dir: /app
+    environment:
+      - PORT=3000
+    volumes:
+      - ./nodejs:/app
+    command: ["npm", "install", "&&", "npm", "start"]
+
+networks:
+  default:
+    external:
+      name: nginx-node-keycloak_default

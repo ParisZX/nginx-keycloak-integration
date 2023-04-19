@@ -11,7 +11,9 @@ services:
       - '8080:8080'
 
   nginx:
-    build: ./nginx
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - '80:80'
     depends_on:
@@ -19,13 +21,9 @@ services:
       - keycloak
 
   nodejs:
-    image: node:14
-    working_dir: /app
+    build: ./nodejs
     environment:
       - PORT=3000
-    volumes:
-      - ./nodejs:/app
-    command: ["npm", "install", "&&", "npm", "start"]
 
 networks:
   default:

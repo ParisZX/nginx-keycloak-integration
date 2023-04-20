@@ -95,6 +95,10 @@ This project serves as an example of how to integrate a Node.js app with Keycloa
 
 Always keep your Keycloak instance, Nginx, Node.js app, and any dependencies up to date, and follow best practices for securing your environment.
 
+## Acknowledgments
+
+This example project was inspired by and adapted from the tutorial by Sairam Krish: [Keycloak Integration — Part 4: Integration with Nginx based on Docker](https://sairamkrish.medium.com/keycloak-integration-part-4-integration-with-nginx-based-on-docker-ba1783fa0329). 
+
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).

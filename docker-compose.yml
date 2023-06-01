@@ -1,35 +1,12 @@
 version: '3.8'
 
 services:
-  keycloak_db:
-    image: postgres:latest
-    environment:
-      - POSTGRES_DB=keycloak
-      - POSTGRES_USER=keycloak
-      - POSTGRES_PASSWORD=keycloak
+  jupyter:
+    build: 
+      context: ./jupyter
+      dockerfile: Dockerfile
     volumes:
-      - keycloak_db_data:/var/lib/postgresql/data
-
-  keycloak:
-    image: jboss/keycloak:latest
-    environment:
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
-      - PROXY_ADDRESS_FORWARDING=true
-      - DB_VENDOR=POSTGRES
-      - DB_ADDR=keycloak_db
-      - DB_DATABASE=keycloak
-      - DB_USER=keycloak
-      - DB_PASSWORD=keycloak
-    ports:
-      - '8080:8080'
-    depends_on:
-      - keycloak_db
-
-  app:
-    build: ./app
-    environment:
-      - PORT=3000
+      - ./notebooks:/usr/src/app
 
   nginx:
     build: ./nginx
@@ -38,8 +15,4 @@ services:
     ports:
       - '80:80'
     depends_on:
-      - app
-      - keycloak
-
-volumes:
-  keycloak_db_data:
+      - jupyter
